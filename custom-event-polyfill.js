@@ -4,8 +4,11 @@
 // https://github.com/d4tocchini/customevent-polyfill
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent#Polyfill
 
+var root = typeof self == 'object' && self.Object == Object && self;
+root = root || (typeof global == 'object' && global.Object == Object && global);
+
 try {
-  new window.CustomEvent("test");
+  new root.CustomEvent("test");
 } catch(e) {
  var CustomEvent = function(event, params) {
       var evt;
@@ -20,6 +23,6 @@ try {
       return evt;
   };
 
-  CustomEvent.prototype = window.Event.prototype;
-  window.CustomEvent = CustomEvent; // expose definition to window
+  CustomEvent.prototype = root.Event.prototype;
+  root.CustomEvent = CustomEvent; // expose definition to window
 }
